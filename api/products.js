@@ -1,27 +1,22 @@
-const mongoose = require('mongoose');
-const Product = require('../models/Product');
+const express = require("express");
+const mongoose = require("mongoose");
+const productRoutes = require("../../routes/productRoutes");
+require("dotenv").config();
 
-let isConnected = false;
+const app = express();
+app.use(express.json());
 
-async function connectDB() {
-  if (isConnected) return;
-  await mongoose.connect(process.env.MONGO_URI);
-  isConnected = true;
-}
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch(err => console.error(err));
 
-// serverless function handler
-module.exports = async (req, res) => {
-  await connectDB();
+// API routes
+app.use("/api/products", productRoutes);
 
-  if (req.method === 'GET') {
-    const products = await Product.find();
-    return res.status(200).json(products);
-  }
+// Root API route
+app.get("/", (req, res) => {
+  res.json({ message: "✅ Backend API running" });
+});
 
-  if (req.method === 'POST') {
-    const product = await Product.create(req.body);
-    return res.status(201).json(product);
-  }
-
-  res.status(405).json({ message: 'Method not allowed' });
-};
+module.exports = app;
