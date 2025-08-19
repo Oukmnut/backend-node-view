@@ -7,14 +7,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect MongoDB
+// MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.error(err));
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch(err => console.error("❌ MongoDB error:", err));
 
-// Routes
+// Import routes
 const productRoutes = require("../routes/productRoutes");
 app.use("/api/products", productRoutes);
 
-// Export app for Vercel
-module.exports = app; 
+// Root route
+app.get("/", (req, res) => {
+  res.send("✅ Backend is running!");
+});
+
+// Export app for Vercel serverless
+module.exports = app;
