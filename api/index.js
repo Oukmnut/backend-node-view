@@ -7,13 +7,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB connection
+// Connect MongoDB
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
+  .then(() => console.log("MongoDB Connected"))
   .catch(err => console.error(err));
 
 // Routes
 const productRoutes = require("../routes/productRoutes");
 app.use("/api/products", productRoutes);
 
-module.exports = app; // do NOT use app.listen()
+// Export app for Vercel
+module.exports = app; 
