@@ -9,11 +9,11 @@ app.use(express.json());
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB Connected"))
+  .then(() => console.log("MongoDB connected"))
   .catch(err => console.error(err));
 
 // Routes
 const productRoutes = require("../routes/productRoutes");
 app.use("/api/products", productRoutes);
 
-module.exports = app; // do not use app.listen()
+module.exports = app; // do NOT use app.listen()
