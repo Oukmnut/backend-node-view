@@ -57,6 +57,7 @@ app.delete('/products/:id', async (req, res) => {
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ MongoDB connected');
-    app.listen(5000, () => console.log('🚀 Server running at http://localhost:5000'));
+    // app.listen(5000, () => console.log('🚀 Server running at http://localhost:5000'));
+    app.listen(5000, () => console.log('🚀 Server running at https://backend-node-view.vercel.app'));
   })
   .catch(err => console.error(err));
